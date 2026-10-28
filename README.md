@@ -64,3 +64,6 @@ poetry run pytest --cov=src --cov-report=html
 ### РЎС‚СЂСѓРєС‚СѓСЂР° С‚РµСЃС‚РѕРІ
 
 - `tests/test_models.py` вЂ” С‚РµСЃС‚С‹ РґР»СЏ РєР»Р°СЃСЃРѕРІ `Product` Рё `Category`
+## Статус
+
+Проект в разработке.
