@@ -94,3 +94,19 @@ def test_price_setter_zero(product, capsys):
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
     assert product.price == 50000.0
+
+
+def test_product_str(product):
+    """Тест строкового отображения продукта."""
+    assert str(product) == "Телефон, 50000.0 руб. Остаток: 10 шт."
+
+
+def test_category_str(category):
+    """Тест строкового отображения категории."""
+    assert str(category) == "Электроника, количество продуктов: 10 шт."
+
+
+def test_product_add(product):
+    """Тест сложения продуктов."""
+    other = Product("Ноутбук", "Игровой", 100000.0, 5)
+    assert product + other == 50000.0 * 10 + 100000.0 * 5
