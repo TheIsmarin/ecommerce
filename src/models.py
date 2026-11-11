@@ -21,6 +21,8 @@ class Product:
 
     def __add__(self, other: "Product") -> float:
         """Сложение продуктов: сумма произведений цены на количество."""
+        if type(self) is not type(other):
+            raise TypeError("Складывать можно только одинаковые классы продуктов")
         return self.price * self.quantity + other.price * other.quantity
 
     @property
@@ -47,6 +49,48 @@ class Product:
         )
 
 
+class Smartphone(Product):
+    """Класс для представления смартфона."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ) -> None:
+        """Инициализация смартфона."""
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Класс для представления газонной травы."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ) -> None:
+        """Инициализация газонной травы."""
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
+
+
 class Category:
     """Класс для представления категории."""
 
@@ -71,14 +115,13 @@ class Category:
         return f"{self.name}, количество продуктов: {total_quantity} шт."
 
     def add_product(self, product: Product) -> None:
-        """Добавляет продукт в категорию."""
+        """Добавляет продукт в категорию с проверкой типа."""
+        if not issubclass(type(product), Product):
+            raise TypeError("Можно добавлять только продукты или их наследников")
         self.__products.append(product)
         Category.product_count += 1
 
     @property
     def products(self) -> str:
         """Геттер для списка товаров."""
-        result = ""
-        for product in self.__products:
-            result += f"{product.name}, {product.price} руб. " f"Остаток: {product.quantity} шт.\n"
-        return result
+        return "".join(f"{product}\n" for product in self.__products)
