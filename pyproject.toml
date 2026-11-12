@@ -39,6 +39,10 @@ warn_return_any = true
 warn_unused_configs = true
 no_implicit_optional = true
 explicit_package_bases = true
+exclude = ["src/main.py"]
+
+[tool.coverage.run]
+omit = ["src/main.py"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

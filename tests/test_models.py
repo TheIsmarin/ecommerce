@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.models import Category, Product
+from src.models import Category, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -110,3 +110,36 @@ def test_product_add(product):
     """Тест сложения продуктов."""
     other = Product("Ноутбук", "Игровой", 100000.0, 5)
     assert product + other == 50000.0 * 10 + 100000.0 * 5
+
+
+def test_smartphone_init():
+    """Тест инициализации смартфона."""
+    phone = Smartphone("Samsung", "Флагман", 100000.0, 5, 95.5, "S23", 256, "Чёрный")
+    assert phone.name == "Samsung"
+    assert phone.efficiency == 95.5
+    assert phone.model == "S23"
+    assert phone.memory == 256
+    assert phone.color == "Чёрный"
+
+
+def test_lawn_grass_init():
+    """Тест инициализации газонной травы."""
+    grass = LawnGrass("Трава", "Элитная", 500.0, 20, "Россия", "7 дней", "Зелёный")
+    assert grass.name == "Трава"
+    assert grass.country == "Россия"
+    assert grass.germination_period == "7 дней"
+    assert grass.color == "Зелёный"
+
+
+def test_add_different_types():
+    """Тест сложения разных типов — TypeError."""
+    phone = Smartphone("Samsung", "Флагман", 100000.0, 5, 95.5, "S23", 256, "Чёрный")
+    grass = LawnGrass("Трава", "Элитная", 500.0, 20, "Россия", "7 дней", "Зелёный")
+    with pytest.raises(TypeError):
+        phone + grass
+
+
+def test_add_product_invalid_type(category):
+    """Тест добавления не-продукта — TypeError."""
+    with pytest.raises(TypeError):
+        category.add_product("Not a product")
