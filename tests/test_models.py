@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.models import Category, LawnGrass, Product, Smartphone
+from src.models import BaseProduct, Category, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -143,3 +143,17 @@ def test_add_product_invalid_type(category):
     """Тест добавления не-продукта — TypeError."""
     with pytest.raises(TypeError):
         category.add_product("Not a product")
+
+
+def test_base_product_is_abstract():
+    """Тест, что BaseProduct нельзя создать напрямую."""
+    with pytest.raises(TypeError):
+        BaseProduct("Товар", "Описание", 100.0, 5)  # type: ignore
+
+
+def test_creation_logger_mixin(capsys):
+    """Тест миксина логирования создания."""
+    Product("Тест", "Описание", 100.0, 5)
+    captured = capsys.readouterr()
+    assert "Создан объект Product" in captured.out
+    assert "Тест" in captured.out
