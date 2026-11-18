@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.models import Category, LawnGrass, Product, Smartphone
+from src.models import BaseProduct, Category, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
