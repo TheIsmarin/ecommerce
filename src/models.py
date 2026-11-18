@@ -10,6 +10,8 @@ class Product:
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
         """Инициализация продукта."""
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         self.name = name
         self.description = description
         self.__price = price
@@ -125,3 +127,11 @@ class Category:
     def products(self) -> str:
         """Геттер для списка товаров."""
         return "".join(f"{product}\n" for product in self.__products)
+
+    def middle_price(self) -> float:
+        """Подсчитывает средний ценник всех товаров в категории."""
+        try:
+            total = sum(product.price for product in self.__products)
+            return total / len(self.__products)
+        except ZeroDivisionError:
+            return 0
