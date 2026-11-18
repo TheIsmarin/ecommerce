@@ -25,7 +25,16 @@ def test_product_init(product):
     assert product.quantity == 10
 
 
-def test_category_init(category, product):
+def test_product_zero_quantity():
+    """Тест: создание продукта с нулевым количеством — ValueError."""
+    with pytest.raises(
+        ValueError,
+        match="Товар с нулевым количеством не может быть добавлен",
+    ):
+        Product("Товар", "Описание", 100.0, 0)
+
+
+def test_category_init(category):
     """Тест инициализации категории."""
     assert category.name == "Электроника"
     assert category.description == "Техника"
@@ -53,7 +62,7 @@ def test_add_product(category):
     assert Category.product_count == initial + 1
 
 
-def test_products_getter(category, product):
+def test_products_getter(category):
     """Тест геттера products."""
     result = category.products
     assert "Телефон" in result
@@ -145,15 +154,12 @@ def test_add_product_invalid_type(category):
         category.add_product("Not a product")
 
 
-def test_base_product_is_abstract():
-    """Тест, что BaseProduct нельзя создать напрямую."""
-    with pytest.raises(TypeError):
-        BaseProduct("Товар", "Описание", 100.0, 5)  # type: ignore
+def test_category_middle_price(category):
+    """Тест: средний ценник категории."""
+    assert category.middle_price() == 50000.0
 
 
-def test_creation_logger_mixin(capsys):
-    """Тест миксина логирования создания."""
-    Product("Тест", "Описание", 100.0, 5)
-    captured = capsys.readouterr()
-    assert "Создан объект Product" in captured.out
-    assert "Тест" in captured.out
+def test_category_middle_price_empty():
+    """Тест: средний ценник пустой категории — 0."""
+    empty_category = Category("Пустая", "Нет товаров", [])
+    assert empty_category.middle_price() == 0

@@ -10,10 +10,10 @@
 - `Product` — класс продукта (наследник `CreationLoggerMixin` и `BaseProduct`, приватная цена, геттер/сеттер, класс-метод `new_product`, магические методы `__str__` и `__add__`)
 - `Smartphone` — наследник `Product` (атрибуты: `efficiency`, `model`, `memory`, `color`)
 - `LawnGrass` — наследник `Product` (атрибуты: `country`, `germination_period`, `color`)
-- `Category` — категория (приватный список товаров, метод `add_product` с проверкой типа, геттер `products`, магический метод `__str__`)
+- `Category` — категория (приватный список товаров, метод `add_product` с проверкой типа, геттер `products`, магический метод `__str__`, метод `middle_price` для среднего ценника с обработкой пустой категории)
 
 ### `src/main.py`
-- Демонстрация работы классов: создание продуктов, сложение, добавление в категорию, обработка ошибок
+- Демонстрация работы классов: создание продуктов, сложение, добавление в категорию, обработка ошибок, подсчёт среднего ценника
 
 ## Установка
 
@@ -68,6 +68,19 @@ try:
     category.add_product("Not a product")
 except TypeError:
     print("Можно добавлять только продукты или их наследников")
+
+# Создание продукта с нулевым количеством — ValueError
+try:
+    Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+except ValueError as e:
+    print(f"Ошибка: {e}")
+
+# Средний ценник категории
+print(category.middle_price())  # 50000.0
+
+# Средний ценник пустой категории
+empty_category = Category("Пустая", "Нет товаров", [])
+print(empty_category.middle_price())  # 0
 
 # Счётчики класса
 print(Category.category_count)  # 1
