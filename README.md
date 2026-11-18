@@ -5,7 +5,9 @@
 ## Модули
 
 ### `src/models.py`
-- `Product` — базовый класс продукта (приватная цена, геттер/сеттер, класс-метод `new_product`, магические методы `__str__` и `__add__`)
+- `CreationLoggerMixin` — миксин для логирования создания объектов
+- `BaseProduct` — абстрактный базовый класс для всех продуктов
+- `Product` — класс продукта (наследник `CreationLoggerMixin` и `BaseProduct`, приватная цена, геттер/сеттер, класс-метод `new_product`, магические методы `__str__` и `__add__`)
 - `Smartphone` — наследник `Product` (атрибуты: `efficiency`, `model`, `memory`, `color`)
 - `LawnGrass` — наследник `Product` (атрибуты: `country`, `germination_period`, `color`)
 - `Category` — категория (приватный список товаров, метод `add_product` с проверкой типа, геттер `products`, магический метод `__str__`)
@@ -32,8 +34,9 @@ poetry install
 ```python
 from src.models import Category, LawnGrass, Product, Smartphone
 
-# Создание продукта
+# Создание продукта (миксин логирует создание)
 product = Product("Телефон", "Смартфон", 50000.0, 10)
+# Вывод: Создан объект Product с параметрами: ('Телефон', 'Смартфон', 50000.0, 10), {}
 print(product)  # Телефон, 50000.0 руб. Остаток: 10 шт.
 
 # Создание категории с продуктом
